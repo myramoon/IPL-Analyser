@@ -37,7 +37,4 @@ public class MostRuns {
                 + ballFaced + ", strikeRate=" + strikeRate + ", hundred=" + hundred + ", fifty=" + fifty + ", fours="
                 + fours + ", six=" + six + "]";
     }
-
-
-
 }

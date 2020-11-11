@@ -38,13 +38,31 @@ public class IPLAnalyser {
     }
 
 
-    public String givenSortedDetails(String csvFile) throws CensusAnalyserException, IOException {
+    public String givenRunsAverageSortedDetails(String csvFile) throws CensusAnalyserException, IOException {
         try {
             loadData(csvFile);
             if (runsCSVList == null || runsCSVList.size() == 0) {
                 throw new CensusAnalyserException("NO_CENSUS_DATA", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
             }
             Comparator<MostRuns> iplComparator = Comparator.comparing(ipl -> ipl.average) ;
+            this.RunsSort(iplComparator);
+            String sortedRunsJson = new Gson().toJson(this.runsCSVList);
+            return sortedRunsJson;
+
+        } catch (RuntimeException e) {
+            throw new CensusAnalyserException("Please select correct csv file  ",
+                    CensusAnalyserException.ExceptionType.INTERNAL_FILE_ISSUES);
+        }
+
+    }
+
+    public String givenStrikeRateSortedDetails(String csvFile ) throws CensusAnalyserException, IOException {
+        try {
+            loadData(csvFile);
+            if (runsCSVList == null || runsCSVList.size() == 0) {
+                throw new CensusAnalyserException("NO_CENSUS_DATA", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+            }
+            Comparator<MostRuns> iplComparator = Comparator.comparing(ipl -> ipl.strikeRate) ;
             this.RunsSort(iplComparator);
             String sortedRunsJson = new Gson().toJson(this.runsCSVList);
             return sortedRunsJson;
@@ -65,10 +83,7 @@ public class IPLAnalyser {
                     runsCSVList.set(j_increment, nextRunsObject);
                     runsCSVList.set(j_increment + 1, firtRunsObject);
                 }
-
             }
-
         }
-
     }
 }
